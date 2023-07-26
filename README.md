@@ -2,7 +2,12 @@
 
 This is a game based upon a decompilation of Pokémon Emerald.
 
-It builds the following ROM:
+(DESCRIPTION)
+
+## To build yourself or modify
+
+Follow these instructions but clone ´https://github.com/pret/pokeemerald´ with ´https://github.com/coffandro/RabbowWorld.git´ when applicable
 
 ## Contact/Credits
-[Coffandro](mailto:macrosedk@gmail.com)
+[Coffandro](https://coffandro.github.io/about#Socials)
+[XerneasGirl](mailto:)
