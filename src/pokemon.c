@@ -6610,43 +6610,19 @@ void SetWildMonHeldItem(void)
             chanceNoItem = 20;
             chanceNotRare = 80;
         }
-        if (gMapHeader.mapLayoutId == LAYOUT_ALTERING_CAVE)
+        if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare && gSpeciesInfo[species].itemCommon != ITEM_NONE)
         {
-            s32 alteringCaveId = GetWildMonTableIdInAlteringCave(species);
-            if (alteringCaveId != 0)
-            {
-                // In active Altering Cave, use special item list
-                if (rnd < chanceNotRare)
-                    return;
-                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &sAlteringCaveWildMonHeldItems[alteringCaveId].item);
-            }
-            else
-            {
-                // In inactive Altering Cave, use normal items
-                if (rnd < chanceNoItem)
-                    return;
-                if (rnd < chanceNotRare)
-                    SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                else
-                    SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-            }
+            // Both held items are the same, 100% chance to hold item
+            SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
         }
         else
         {
-            if (gSpeciesInfo[species].itemCommon == gSpeciesInfo[species].itemRare && gSpeciesInfo[species].itemCommon != ITEM_NONE)
-            {
-                // Both held items are the same, 100% chance to hold item
+            if (rnd < chanceNoItem)
+                return;
+            if (rnd < chanceNotRare)
                 SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-            }
             else
-            {
-                if (rnd < chanceNoItem)
-                    return;
-                if (rnd < chanceNotRare)
-                    SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemCommon);
-                else
-                    SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
-            }
+                SetMonData(&gEnemyParty[0], MON_DATA_HELD_ITEM, &gSpeciesInfo[species].itemRare);
         }
     }
 }

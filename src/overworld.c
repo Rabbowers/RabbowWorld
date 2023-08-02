@@ -835,9 +835,7 @@ static void LoadMapFromWarp(bool32 a1)
     LoadCurrentMapData();
     if (!(sObjectEventLoadFlag & SKIP_OBJECT_EVENT_LOAD))
     {
-        if (gMapHeader.mapLayoutId == LAYOUT_BATTLE_FRONTIER_BATTLE_PYRAMID_FLOOR)
-            LoadBattlePyramidObjectEventTemplates();
-        else if (InTrainerHill())
+        if (InTrainerHill())
             LoadTrainerHillObjectEventTemplates();
         else
             LoadObjEventTemplatesFromHeader();
@@ -1012,88 +1010,27 @@ static u8 GetObjectEventLoadFlag(void)
 
 static bool16 ShouldLegendaryMusicPlayAtLocation(struct WarpData *warp)
 {
-    if (!FlagGet(FLAG_SYS_WEATHER_CTRL))
-        return FALSE;
-    if (warp->mapGroup == 0)
-    {
-        switch (warp->mapNum)
-        {
-        case MAP_NUM(LILYCOVE_CITY):
-        case MAP_NUM(MOSSDEEP_CITY):
-        case MAP_NUM(SOOTOPOLIS_CITY):
-        case MAP_NUM(EVER_GRANDE_CITY):
-        case MAP_NUM(ROUTE124):
-        case MAP_NUM(ROUTE125):
-        case MAP_NUM(ROUTE126):
-        case MAP_NUM(ROUTE127):
-        case MAP_NUM(ROUTE128):
-            return TRUE;
-        default:
-            if (VarGet(VAR_SOOTOPOLIS_CITY_STATE) < 4)
-                return FALSE;
-            switch (warp->mapNum)
-            {
-            case MAP_NUM(ROUTE129):
-            case MAP_NUM(ROUTE130):
-            case MAP_NUM(ROUTE131):
-                return TRUE;
-            }
-        }
-    }
     return FALSE;
 }
 
 static bool16 NoMusicInSotopolisWithLegendaries(struct WarpData *warp)
 {
-    if (VarGet(VAR_SKY_PILLAR_STATE) != 1)
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(SOOTOPOLIS_CITY))
-        return FALSE;
-    else if (warp->mapNum == MAP_NUM(SOOTOPOLIS_CITY))
-        return TRUE;
-    else
         return FALSE;
 }
 
 static bool16 IsInfiltratedWeatherInstitute(struct WarpData *warp)
 {
-    if (VarGet(VAR_WEATHER_INSTITUTE_STATE))
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(ROUTE119_WEATHER_INSTITUTE_1F))
-        return FALSE;
-    else if (warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_1F)
-     || warp->mapNum == MAP_NUM(ROUTE119_WEATHER_INSTITUTE_2F))
-        return TRUE;
-    else
-        return FALSE;
+    return FALSE;
 }
 
 static bool16 IsInflitratedSpaceCenter(struct WarpData *warp)
 {
-    if (VarGet(VAR_MOSSDEEP_CITY_STATE) == 0)
-        return FALSE;
-    else if (VarGet(VAR_MOSSDEEP_CITY_STATE) > 2)
-        return FALSE;
-    else if (warp->mapGroup != MAP_GROUP(MOSSDEEP_CITY_SPACE_CENTER_1F))
-        return FALSE;
-    else if (warp->mapNum == MAP_NUM(MOSSDEEP_CITY_SPACE_CENTER_1F)
-     || warp->mapNum == MAP_NUM(MOSSDEEP_CITY_SPACE_CENTER_2F))
-        return TRUE;
     return FALSE;
 }
 
 u16 GetLocationMusic(struct WarpData *warp)
 {
-    if (NoMusicInSotopolisWithLegendaries(warp) == TRUE)
-        return MUS_NONE;
-    else if (ShouldLegendaryMusicPlayAtLocation(warp) == TRUE)
-        return MUS_ABNORMAL_WEATHER;
-    else if (IsInflitratedSpaceCenter(warp) == TRUE)
-        return MUS_ENCOUNTER_MAGMA;
-    else if (IsInfiltratedWeatherInstitute(warp) == TRUE)
-        return MUS_MT_CHIMNEY;
-    else
-        return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
+    return Overworld_GetMapHeaderByGroupAndId(warp->mapGroup, warp->mapNum)->music;
 }
 
 u16 GetCurrLocationDefaultMusic(void)
@@ -1123,18 +1060,6 @@ u16 GetCurrLocationDefaultMusic(void)
 u16 GetWarpDestinationMusic(void)
 {
     u16 music = GetLocationMusic(&sWarpDestination);
-    if (music != MUS_ROUTE118)
-    {
-        return music;
-    }
-    else
-    {
-        if (gSaveBlock1Ptr->location.mapGroup == MAP_GROUP(MAUVILLE_CITY)
-         && gSaveBlock1Ptr->location.mapNum == MAP_NUM(MAUVILLE_CITY))
-            return MUS_ROUTE110;
-        else
-            return MUS_ROUTE119;
-    }
 }
 
 void Overworld_ResetMapMusic(void)
