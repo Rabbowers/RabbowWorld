@@ -16,6 +16,7 @@
 #define MAP_INSIDE_OF_SHIP (0 | (2 << 8))
 
 // gMapGroup_IndoorSeaton
+#define MAP_OLDALE_TOWN_MART (0 | (3 << 8))
 
 #define MAP_GROUPS_COUNT 4
 
